@@ -18,7 +18,9 @@ Ensure you have everything in the requirements.txt
    ```sh
    git clone https://github.com/E0309440/Healthhack_2025.git
 
-2. Run the application:
+2. Replace OpenAI API Key in app.py
+
+3. Run the application:
    ```sh
    python app.py
    
