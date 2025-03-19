@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Elderly Care App</title>
+    <style>
+        /* Add the same styles as before */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .mobile-screen {
+            width: 360px;
+            height: 640px;
+            background-color: #fff;
+            border-radius: 20px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .header {
+            background-color: #007bff;
+            color: #fff;
+            padding: 15px;
+            text-align: center;
+            font-size: 18px;
+            font-weight: bold;
+            position: relative;
+        }
+
+        .back-button {
+            position: absolute;
+            left: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: #fff;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .content {
+            flex: 1;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background-color: #f9f9f9;
+        }
+
+        .content h1 {
+            font-size: 24px;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .content p {
+            font-size: 16px;
+            color: #666;
+            text-align: center;
+            margin-bottom: 10px;
+        }
+
+        .button {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 20px;
+            font-size: 16px;
+            cursor: pointer;
+            text-decoration: none;
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .button:hover {
+            background-color: #0056b3;
+        }
+
+        /* Style for Last Active */
+        .last-active {
+            font-size: 14px;
+            color: #666;
+            text-align: center;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="mobile-screen">
+        <div class="header">
+            <button class="back-button" onclick="window.history.back()">←</button>
+            Elderly Care App
+        </div>
+        <div class="content">
+            <h1>Welcome, {{ user.name }}</h1>
+            <p>Your companion for health and wellness.</p>
+            <p><strong>Next of Kin:</strong> {{ user.next_of_kin_name }}</p>
+            <p><strong>Contact:</strong> {{ user.next_of_kin_contact }}</p>
+            <p><strong>Address:</strong> {{ user.next_of_kin_address }}</p>
+
+            <!-- Last Active Section -->
+            <div class="last-active" id="lastActive"></div>
+
+            <a href="{{ url_for('chatbot') }}" class="button">Go to Health Assistant</a>
+            <a href="{{ url_for('appointments') }}" class="button">Upcoming Appointments</a>
+            <a href="{{ url_for('settings') }}" class="button">Settings</a>
+        </div>
+    </div>
+
+    <script>
+        // Function to display the current date and time as "Last Active"
+        function updateLastActive() {
+            const now = new Date();
+            const options = { 
+                year: 'numeric', 
+                month: 'long', 
+                day: 'numeric', 
+                hour: '2-digit', 
+                minute: '2-digit', 
+                second: '2-digit' 
+            };
+            const formattedDate = now.toLocaleDateString('en-US', options);
+            document.getElementById('lastActive').textContent = `Last Active: ${formattedDate}`;
+        }
+
+        // Update "Last Active" when the page loads
+        updateLastActive();
+    </script>
+</body>
+</html>

@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upcoming Appointments</title>
+    <style>
+        /* Add the same styles as before */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .mobile-screen {
+            width: 360px;
+            height: 700px; /* Increased height to fit the calendar */
+            background-color: #fff;
+            border-radius: 20px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .header {
+            background-color: #007bff;
+            color: #fff;
+            padding: 15px;
+            text-align: center;
+            font-size: 18px;
+            font-weight: bold;
+            position: relative;
+        }
+
+        .back-button {
+            position: absolute;
+            left: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: #fff;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .content {
+            flex: 1;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: center;
+            background-color: #f9f9f9;
+            overflow-y: auto;
+        }
+
+        .sync-message {
+            font-size: 16px;
+            color: #007bff;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .calendar {
+            width: 100%;
+            text-align: center;
+            margin-bottom: 20px; /* Added margin to separate from the button */
+        }
+
+        .calendar table {
+            width: 100%;
+            border-collapse: collapse;
+            table-layout: fixed; /* Standardize column widths */
+        }
+
+        .calendar th,
+        .calendar td {
+            padding: 8px; /* Reduced padding for smaller cells */
+            border: 1px solid #ddd;
+            font-size: 12px; /* Smaller font size */
+            height: 40px; /* Standardized row height */
+            vertical-align: middle; /* Center text vertically */
+        }
+
+        .calendar th {
+            background-color: #f4f4f9;
+            font-weight: bold;
+        }
+
+        .calendar td {
+            background-color: #fff;
+        }
+
+        .calendar .highlight {
+            background-color: #007bff;
+            color: #fff;
+            font-weight: bold;
+        }
+
+        .appointment-label {
+            font-size: 10px; /* Smaller font size for the label */
+            color: #fff;
+            margin-top: 2px; /* Reduced margin */
+        }
+
+        .info-button {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 20px;
+            font-size: 16px;
+            cursor: pointer;
+            text-decoration: none;
+            text-align: center;
+            width: 100%;
+            margin-top: 10px;
+        }
+
+        .info-button:hover {
+            background-color: #0056b3;
+        }
+
+        /* Popup styles */
+        .popup {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+            text-align: center;
+            width: 300px;
+        }
+
+        .popup h3 {
+            margin: 0 0 15px;
+            font-size: 18px;
+            color: #333;
+        }
+
+        .popup p {
+            margin: 0 0 10px;
+            font-size: 14px;
+            color: #666;
+        }
+
+        .popup button {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 20px;
+            font-size: 14px;
+            cursor: pointer;
+            margin-top: 15px;
+        }
+
+        .popup button:hover {
+            background-color: #0056b3;
+        }
+
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+        }
+    </style>
+</head>
+<body>
+    <div class="mobile-screen">
+        <div class="header">
+            <button class="back-button" onclick="window.history.back()">←</button>
+            Upcoming Appointments
+        </div>
+        <div class="content">
+            <!-- Synced with HealthHub Message -->
+            <div class="sync-message">
+                Synced with HealthHub
+            </div>
+
+            <!-- Calendar -->
+            <div class="calendar">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Sun</th>
+                            <th>Mon</th>
+                            <th>Tue</th>
+                            <th>Wed</th>
+                            <th>Thu</th>
+                            <th>Fri</th>
+                            <th>Sat</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- March 2023 Calendar -->
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td>1</td>
+                            <td>2</td>
+                            <td>3</td>
+                            <td>4</td>
+                        </tr>
+                        <tr>
+                            <td>5</td>
+                            <td>6</td>
+                            <td>7</td>
+                            <td>8</td>
+                            <td>9</td>
+                            <td>10</td>
+                            <td>11</td>
+                        </tr>
+                        <tr>
+                            <td>12</td>
+                            <td>13</td>
+                            <td>14</td>
+                            <td>15</td>
+                            <td>16</td>
+                            <td>17</td>
+                            <td>18</td>
+                        </tr>
+                        <tr>
+                            <td>19</td>
+                            <td>20</td>
+                            <td>21</td>
+                            <td>22</td>
+                            <td>23</td>
+                            <td>24</td>
+                            <td>25</td>
+                        </tr>
+                        <tr>
+                            <td>26</td>
+                            <td>27</td>
+                            <td>28</td>
+                            <td>29</td>
+                            <td>30</td>
+                            <td class="highlight">31
+                                <div class="appointment-label">Physio</div>
+                            </td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Information Button -->
+            <button class="info-button" onclick="showAppointmentInfo()">Information on Upcoming Appointment</button>
+        </div>
+    </div>
+
+    <!-- Popup for Appointment Information -->
+    <div class="overlay" id="overlay"></div>
+    <div class="popup" id="appointmentPopup">
+        <h3>Appointment Details</h3>
+        <p><strong>Appointment:</strong> Physio Therapist Appointment</p>
+        <p><strong>Date:</strong> 31st March 2025</p>
+        <p><strong>Time:</strong> 10:00 AM</p>
+        <p><strong>Location:</strong> NUH West Wing #05-11</p>
+        <button onclick="hideAppointmentInfo()">Close</button>
+    </div>
+
+    <script>
+        // Function to show the appointment info popup
+        function showAppointmentInfo() {
+            document.getElementById('appointmentPopup').style.display = 'block';
+            document.getElementById('overlay').style.display = 'block';
+        }
+
+        // Function to hide the appointment info popup
+        function hideAppointmentInfo() {
+            document.getElementById('appointmentPopup').style.display = 'none';
+            document.getElementById('overlay').style.display = 'none';
+        }
+    </script>
+</body>
+</html>

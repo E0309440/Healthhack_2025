@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Settings</title>
+    <style>
+        /* Add the same styles as before */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .mobile-screen {
+            width: 360px;
+            height: 640px;
+            background-color: #fff;
+            border-radius: 20px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .header {
+            background-color: #007bff;
+            color: #fff;
+            padding: 15px;
+            text-align: center;
+            font-size: 18px;
+            font-weight: bold;
+            position: relative;
+        }
+
+        .back-button {
+            position: absolute;
+            left: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: #fff;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .content {
+            flex: 1;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: center;
+            background-color: #f9f9f9;
+            overflow-y: auto;
+        }
+
+        .section {
+            width: 100%;
+            margin-bottom: 20px;
+        }
+
+        .section h2 {
+            font-size: 18px;
+            color: #333;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        .form-group {
+            width: 100%;
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-size: 14px;
+            color: #333;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 20px;
+            font-size: 14px;
+            outline: none;
+        }
+
+        .button {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 20px;
+            font-size: 16px;
+            cursor: pointer;
+            text-decoration: none;
+            text-align: center;
+            width: 100%;
+            margin-top: 10px;
+        }
+
+        .button:hover {
+            background-color: #0056b3;
+        }
+
+        /* Popup styles */
+        .popup {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+            text-align: center;
+        }
+
+        .popup p {
+            margin: 0 0 20px;
+            font-size: 16px;
+        }
+
+        .popup button {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 20px;
+            font-size: 14px;
+            cursor: pointer;
+        }
+
+        .popup button:hover {
+            background-color: #0056b3;
+        }
+
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+        }
+    </style>
+</head>
+<body>
+    <div class="mobile-screen">
+        <div class="header">
+            <button class="back-button" onclick="window.history.back()">←</button>
+            Settings
+        </div>
+        <div class="content">
+            <!-- Personal Information Section -->
+            <div class="section">
+                <h2>Personal Information</h2>
+                <form method="POST" action="{{ url_for('settings') }}">
+                    <div class="form-group">
+                        <label for="name">Your Name</label>
+                        <input type="text" id="name" name="name" value="{{ user.name }}" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="next_of_kin_name">Next of Kin Name</label>
+                        <input type="text" id="next_of_kin_name" name="next_of_kin_name" value="{{ user.next_of_kin_name }}" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="next_of_kin_contact">Next of Kin Contact</label>
+                        <input type="text" id="next_of_kin_contact" name="next_of_kin_contact" value="{{ user.next_of_kin_contact }}" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="next_of_kin_address">Next of Kin Address</label>
+                        <input type="text" id="next_of_kin_address" name="next_of_kin_address" value="{{ user.next_of_kin_address }}" required>
+                    </div>
+                    <button type="submit" class="button">Save Personal Information</button>
+                </form>
+            </div>
+
+            <!-- Wearable Settings Section -->
+            <div class="section">
+                <h2>Wearable Settings</h2>
+                <button class="button" onclick="showPopup()">Link to Apple Watch</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Popup for "Pairing Already Successful" -->
+    <div class="overlay" id="overlay"></div>
+    <div class="popup" id="popup">
+        <p>Pairing Already Successful</p>
+        <button onclick="hidePopup()">OK</button>
+    </div>
+
+    <script>
+        // Function to show the popup
+        function showPopup() {
+            document.getElementById('popup').style.display = 'block';
+            document.getElementById('overlay').style.display = 'block';
+        }
+
+        // Function to hide the popup
+        function hidePopup() {
+            document.getElementById('popup').style.display = 'none';
+            document.getElementById('overlay').style.display = 'none';
+        }
+    </script>
+</body>
+</html>
