@@ -19,6 +19,7 @@ Ensure you have everything in the requirements.txt
    git clone https://github.com/E0309440/Healthhack_2025.git
 
 2. Run the application:
-   ```python app.py
+   ```sh
+   python app.py
    
 
